@@ -15,8 +15,8 @@ Cartify is an e-commerce platform built with Next.js, React, and TypeScript.
 - **Wishlist** functionality to save favorite products
 - **Order** tracking for users to view past purchases
 - **Login** and **Logout** functionality for user authentication
-- **About**, **Contact**, and **Shipping** pages for customer information
-- **Returns** and **Privacy Policy** pages to ensure transparency and trust
+- **About**, **Contact**, and **Shipping** pages for information
+- **Returns** and **Privacy Policy** pages for transparency and trust
 
 ## Products
 ![Demo](demo/componentsProducts.jpg)
