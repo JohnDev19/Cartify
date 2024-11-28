@@ -59,7 +59,7 @@ The platform still requires the following complete implementation for full funct
 
 ## Credits
 
-- **Project Creator**: JohnDev19
+- **Project Creator**: [JohnDev19](LICENCE)
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
 - **Icons**: [FontAwesome](https://fontawesome.com/)
 - **Images**: [Unsplash](https://unsplash.com/)
