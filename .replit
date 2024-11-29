@@ -1,0 +1,28 @@
+run = "npm run dev"
+hidden = [".build", ".config"]
+
+[nix]
+channel = "stable-22_11"
+
+[env]
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
+
+[packager]
+language = "nodejs"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+
+[languages.javascript]
+pattern = "**/{*.js,*.jsx,*.ts,*.tsx}"
+syntax = "javascript"
+
+[languages.javascript.languageServer]
+start = [ "typescript-language-server", "--stdio" ]
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+deploymentTarget = "cloudrun"
+
