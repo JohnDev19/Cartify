@@ -1,5 +1,6 @@
 {
   "name": "cartify",
+  "author": "johndev19",
   "version": "0.1.0",
   "private": true,
   "scripts": {
