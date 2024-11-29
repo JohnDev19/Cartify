@@ -8,7 +8,17 @@ import { Button } from "../../components/ui/button"
 import { useToast } from "../../components/ui/use-toast"
 import { Badge } from "../../components/ui/badge"
 
-const deals = [
+interface Deal {
+  id: number
+  name: string
+  price: number
+  originalPrice: number
+  discount: number
+  category: string
+  image: string
+}
+
+const deals: Deal[] = [
   { id: 1, name: 'Summer Sale Wireless Earbuds', price: 850, originalPrice: 1200, discount: 29, category: 'Electronics', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' },
   { id: 2, name: 'Limited Time Smart Watch Offer', price: 5200, originalPrice: 6500, discount: 20, category: 'Electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' },
   { id: 3, name: 'Flash Sale: Premium Yoga Mat', price: 400, originalPrice: 500, discount: 20, category: 'Fitness', image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?ixlib=rb-4.0.3&ixid=M3wxMjA=format&fit=crop&w=1000&q=80' },
@@ -22,7 +32,7 @@ export default function Deals() {
   const { toast } = useToast()
   const [addedToCart, setAddedToCart] = useState<{ [key: number]: boolean }>({})
 
-  const handleAddToCart = (deal: any) => {
+  const handleAddToCart = (deal: Deal) => {
     addToCart(deal)
     setAddedToCart({ ...addedToCart, [deal.id]: true })
     toast({
@@ -76,4 +86,3 @@ export default function Deals() {
     </div>
   )
 }
-
