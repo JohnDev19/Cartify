@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "../../components/ui/use-toast"
 
 interface Product {
   id: number
@@ -25,7 +25,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined)
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
-  const { toast } = useToast()
 
   const addToCart = (product: Product) => {
     setCart(prevCart => {
