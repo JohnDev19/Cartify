@@ -35,7 +35,7 @@ const accordionContentVariants = cva(
   {
     variants: {
       isOpen: {
-        true: "max-h-[500px]", // You can adjust the max-height according to content size
+        true: "max-h-[500px]",
         false: "max-h-0",
       },
     },
@@ -56,17 +56,28 @@ export interface AccordionTriggerProps extends React.HTMLAttributes<HTMLDivEleme
 export interface AccordionContentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Accordion({ className, variant, children, ...props }: AccordionProps) {
+  const [activeItem, setActiveItem] = React.useState<string | null>(null)
+
+  const handleToggle = (value: string) => {
+    setActiveItem(activeItem === value ? null : value) // Toggle the active item
+  }
+
   return (
     <div className={cn(accordionVariants({ variant }), className)} {...props}>
-      {children}
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, { onToggle: handleToggle, activeItem })
+        }
+        return child
+      })}
     </div>
   )
 }
 
-export function AccordionItem({ value, children, ...props }: AccordionItemProps) {
-  const [isOpen, setIsOpen] = React.useState(false)
+export function AccordionItem({ value, children, onToggle, activeItem, ...props }: AccordionItemProps) {
+  const isOpen = activeItem === value
 
-  const toggleAccordion = () => setIsOpen(!isOpen)
+  const toggleAccordion = () => onToggle(value)
 
   return (
     <div {...props}>
@@ -74,7 +85,7 @@ export function AccordionItem({ value, children, ...props }: AccordionItemProps)
         {children[0]} {/* AccordionTrigger */}
         <span>{isOpen ? "-" : "+"}</span>
       </div>
-      <div className={accordionContentVariants({ isOpen: isOpen })}>
+      <div className={accordionContentVariants({ isOpen })}>
         {children[1]} {/* AccordionContent */}
       </div>
     </div>
