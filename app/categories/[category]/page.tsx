@@ -8,7 +8,15 @@ import { useCart } from '../../contexts/CartContext'
 import { Button } from "../../../components/ui/button"
 import { useToast } from "../../../components/ui/use-toast"
 
-const products = [
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  image: string;
+}
+
+const products: Product[] = [
   { id: 1, name: 'Wireless Earbuds', price: 3999.99, category: 'Electronics', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' },
   { id: 2, name: 'Smart Watch', price: 9999.99, category: 'Electronics', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' },
   { id: 3, name: 'Yoga Mat', price: 1499.99, category: 'Fitness', image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' },
@@ -31,80 +39,47 @@ export default function CategoryPage() {
   const { addToCart } = useCart()
   const { toast } = useToast()
   const [currentPage, setCurrentPage] = useState(1)
-  const productsPerPage = 6
+  const [itemsPerPage] = useState(6)
 
-  const category = params.category as string
-  const categoryProducts = products.filter(product => product.category.toLowerCase() === category.toLowerCase())
-
-  const indexOfLastProduct = currentPage * productsPerPage
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage
-  const currentProducts = categoryProducts.slice(indexOfFirstProduct, indexOfLastProduct)
-  const totalPages = Math.ceil(categoryProducts.length / productsPerPage)
-
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     addToCart(product)
     toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart.`,
+      title: `${product.name} added to cart`,
+      description: 'You can view your cart at any time',
     })
   }
 
+  const category = params.category
+
+  const filteredProducts = category
+    ? products.filter((product) => product.category.toLowerCase() === category.toLowerCase())
+    : products
+
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage)
+
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-3xl font-bold mb-8 capitalize">{category} Products</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {currentProducts.map((product) => (
-          <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="relative h-64">
-              <Image
-                src={product.image}
-                alt={product.name}
-                layout="fill"
-                objectFit="cover"
-              />
+    <>
+      <div>
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {currentProducts.map((product) => (
+            <div key={product.id} className="rounded-lg border border-gray-300 p-4">
+              <Image src={product.image} alt={product.name} width={300} height={300} className="w-full h-auto object-cover rounded-lg" />
+              <h3 className="mt-4 text-lg font-semibold">{product.name}</h3>
+              <p className="text-gray-500">{product.category}</p>
+              <p className="text-xl font-semibold mt-2">${product.price.toFixed(2)}</p>
+              <Button onClick={() => handleAddToCart(product)} className="mt-4 w-full">
+                Add to Cart
+              </Button>
             </div>
-            <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-              <p className="text-gray-600 mb-4">{product.category}</p>
-              <div className="flex justify-between items-center">
-                <span className="text-2xl font-bold">₱{product.price.toFixed(2)}</span>
-                <div className="space-x-2">
-                  <Link href={`/product/${product.id}`}>
-                    <Button variant="outline">View Details</Button>
-                  </Link>
-                  <Button onClick={() => handleAddToCart(product)}>
-                    Add to Cart
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <div className="mt-6 flex justify-center space-x-2">
+          <Button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
+          <Button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage * itemsPerPage >= filteredProducts.length}>Next</Button>
+        </div>
       </div>
-      <div className="mt-8 flex justify-center items-center space-x-2">
-        <Button
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </Button>
-        {[...Array(totalPages)].map((_, index) => (
-          <Button
-            key={index}
-            onClick={() => setCurrentPage(index + 1)}
-            variant={currentPage === index + 1 ? "default" : "outline"}
-          >
-            {index + 1}
-          </Button>
-        ))}
-        <Button
-          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </Button>
-      </div>
-    </div>
+    </>
   )
 }
-
