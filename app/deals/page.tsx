@@ -4,9 +4,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '../contexts/CartContext'
-import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "../../components/ui/button"
+import { useToast } from "../../components/ui/use-toast"
+import { Badge } from "../../components/ui/badge"
 
 const deals = [
   { id: 1, name: 'Summer Sale Wireless Earbuds', price: 850, originalPrice: 1200, discount: 29, category: 'Electronics', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' },
