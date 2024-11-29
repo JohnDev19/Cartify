@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCart } from '../../../contexts/CartContext'
+import { useCart } from '../../contexts/CartContext'
 import { Button } from "../../../components/ui/button"
 import { useToast } from "../../../components/ui/use-toast"
 
