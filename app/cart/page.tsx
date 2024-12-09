@@ -15,9 +15,13 @@ interface CartItem {
 }
 
 export default function Cart() {
-  const { cart, removeFromCart, updateQuantity } = useCart()
+  const { cart, removeFromCart, updateQuantity } = useCart() as {
+    cart: CartItem[];
+    removeFromCart: (id: string) => void;
+    updateQuantity: (id: string, quantity: number) => void;
+  };
 
-  const total = cart.reduce((sum, item: CartItem) => sum + item.price * item.quantity, 0)
+  const total = cart.reduce((sum: number, item: CartItem) => sum + item.price * item.quantity, 0);
 
   return (
     <div className="container mx-auto px-4 py-8">
