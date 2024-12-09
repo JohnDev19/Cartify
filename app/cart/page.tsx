@@ -6,22 +6,10 @@ import Image from 'next/image'
 import { Trash2, Plus, Minus } from 'lucide-react'
 import { Button } from "../../components/ui/button"
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
 export default function Cart() {
-  const { cart, removeFromCart, updateQuantity } = useCart() as {
-    cart: CartItem[];
-    removeFromCart: (id: string) => void;
-    updateQuantity: (id: string, quantity: number) => void;
-  };
+  const { cart, removeFromCart, updateQuantity } = useCart()
 
-  const total = cart.reduce((sum: number, item: CartItem) => sum + item.price * item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,7 +24,7 @@ export default function Cart() {
       ) : (
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            {cart.map((item: CartItem) => (
+            {cart.map(item => (
               <div key={item.id} className="flex items-center space-x-4 border-b py-4">
                 <div className="relative w-24 h-24 flex-shrink-0">
                   <Image
@@ -82,7 +70,7 @@ export default function Cart() {
             <div className="bg-gray-100 p-6 rounded-lg">
               <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
               <div className="space-y-2 mb-4">
-                {cart.map((item: CartItem) => (
+                {cart.map(item => (
                   <div key={item.id} className="flex justify-between">
                     <span>{item.name} (x{item.quantity})</span>
                     <span>₱{(item.price * item.quantity).toFixed(2)}</span>
